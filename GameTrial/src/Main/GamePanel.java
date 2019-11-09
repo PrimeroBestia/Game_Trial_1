@@ -7,6 +7,8 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
+
+import GameState.GameStateManager;
 public class GamePanel extends JPanel implements Runnable, KeyListener{
 	/**
 	 * Primero
@@ -24,14 +26,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private int FPS = 60;
 	private long targetTime = 1000/FPS;
 	
-	//image
+	//Image
 	private BufferedImage image;
 	private	Graphics2D graphics;
+	
+	//Game State Manager
+	private GameStateManager gameStateManager;
+	
 	
 	public GamePanel() {
 		super();
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT*SCALE));
-		setFocusable(true);
+		setFocusable(false);
 		requestFocus();
 	}
 	
@@ -46,8 +52,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	public void init() {
 		image = new BufferedImage(WIDTH, HEIGHT,BufferedImage.TYPE_INT_RGB);
-		graphics = (Graphics2D) graphics;
+		graphics = (Graphics2D) image.createGraphics();
 		running = true;
+		gameStateManager = new GameStateManager();
 	}
 	
 	public void run() {
@@ -69,8 +76,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			drawToScreen();
 			
 			elapsed = System.nanoTime() - start;
-			
-			wait = targetTime - elapsed / 1000000;
+			wait = targetTime - (elapsed / 1000000);
+			if(wait < 0) wait = 1;
 			
 			try {
 				Thread.sleep(wait);
@@ -83,33 +90,33 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	}
 
 	public void update() {
-		
+		gameStateManager.update();
 	}
 	
 	public void draw() {
-		
+		gameStateManager.draw(graphics);
 	}
 	
 	public void drawToScreen() {
 		Graphics screen = getGraphics();
-		screen.drawImage(image, 0, 0, null);
+		screen.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
 		screen.dispose();
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(KeyEvent key) {
 		// TODO Auto-generated method stub
-		
+		gameStateManager.keyPressed(key.getKeyCode());
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyReleased(KeyEvent key) {
 		// TODO Auto-generated method stub
-		
+		gameStateManager.keyReleased(key.getKeyCode());
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void keyTyped(KeyEvent key) {
 		// TODO Auto-generated method stub
 		
 	}
