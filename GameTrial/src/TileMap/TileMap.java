@@ -49,7 +49,7 @@ public class TileMap {
 		this.tileSize = tileSize;
 		numColsToDraw = GamePanel.WIDTH / tileSize + 2;
 		numRowsToDraw = GamePanel.HEIGHT / tileSize + 2;
-		tween = 0.7;
+		tween = 0.07;
 		
 	}
 	
@@ -85,6 +85,11 @@ public class TileMap {
 			width = numCols * tileSize;
 			height = numRows * tileSize;
 			
+			xmin = GamePanel.WIDTH - width;
+			xmax = 0;
+			ymin = GamePanel.HEIGHT - height;
+			ymax = 0;
+			
 			String delimit = "\\s+";
 			
 			for(int row = 0; row < numRows; row++) {
@@ -115,10 +120,12 @@ public class TileMap {
 		return tiles[rows][cols].getType();
 	}
 	
+	public void setTween(double d) { tween = d; }
+	
 	public void setPosition(double x, double y) {
 		
-		this.x = (x - this.x) * tween;
-		this.y = (y - this.y) * tween;
+		this.x = x  * tween;
+		this.y = y  * tween;
 		fixBounds();
 		
 		colOffset = (int)-this.x /tileSize;
@@ -136,21 +143,26 @@ public class TileMap {
 	}
 	
 	public void draw(Graphics2D graphics) {
-
-		for(int row = rowOffset; row < rowOffset + numRowsToDraw; row++) {
-			
-			if(row >= numRows) break;
-			
-			for(int col = colOffset; col < colOffset + numColsToDraw; col++) {
-				if(col >= numCols) break;
-
-				if(map[row][col] == 0) continue;
-				int rowCol = map [row][col];
-				int rows = rowCol / numTilesAcross;
-				int cols = rowCol % numTilesAcross;
-				graphics.drawImage(tiles[rows][cols].getImage(), (int)x + (col * tileSize),
-						(int)y + (row * tileSize), null);
+		
+		try {
+			for(int row = rowOffset; row < rowOffset + numRowsToDraw; row++) {
+				
+				if(row >= numRows) break;
+	
+				for(int col = colOffset; col < colOffset + numColsToDraw; col++) {
+					if(col >= numCols) break;
+	
+					if(map[row][col] == 0) continue;
+					int rowCol = map [row][col];
+					int rows = rowCol / numTilesAcross;
+					int cols = rowCol % numTilesAcross;
+					graphics.drawImage(tiles[rows][cols].getImage(), (int)x + (col * tileSize),
+							(int)y + (row * tileSize), null);
+				}
+					
 			}
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 		
 	}
