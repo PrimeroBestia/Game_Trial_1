@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
+import Entity.Animation;
 import Main.GamePanel;
 
 public class TileMap {
@@ -89,7 +90,6 @@ public class TileMap {
 			for(int row = 0; row < numRows; row++) {
 				String line = buffReader.readLine();
 				String[] tokens = line.split(delimit);
-				System.out.println(line);
 				for(int col = 0; col < numCols; col++) {
 					map[row][col] = Integer.parseInt(tokens[col]);
 				}
@@ -99,14 +99,13 @@ public class TileMap {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public int getTileSize() {return tileSize;}
 	public int getx() {return (int)x;}
 	public int gety() {return (int)y;}
-	public int getWidth() {return (int)width;}
-	public int getHeight() {return (int)height;}
+	public int getWidth() {return width;}
+	public int getHeight() {return height;}
 	
 	public int getType(int row, int col) {
 		int rowCol = map [row][col];
@@ -149,7 +148,6 @@ public class TileMap {
 				int rowCol = map [row][col];
 				int rows = rowCol / numTilesAcross;
 				int cols = rowCol % numTilesAcross;
-				System.out.print(tiles[rows][cols].getType()+" ");
 				graphics.drawImage(tiles[rows][cols].getImage(), (int)x + (col * tileSize),
 						(int)y + (row * tileSize), null);
 			}

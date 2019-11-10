@@ -1,9 +1,9 @@
 package GameState;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 
-import Main.GamePanel;
+import Entity.Player;
 import TileMap.Background;
 import TileMap.TileMap;
 
@@ -12,25 +12,29 @@ public class Level1State extends GameState{
 	private TileMap tileMap;
 	private Background background;
 	
+	private Player player;
+	
 	public Level1State(GameStateManager gameStateManager) {
 		this.gameStateManager = gameStateManager;
+		tileMap = new TileMap(30);
+		tileMap.loadTiles("/Tilesets/grasstileset.gif");
+		tileMap.loadMap("/Maps/level1-1.map");
+		tileMap.setPosition(0, 0);
+		background = new Background("/Backgrounds/menubg.gif",0.1);
 	}
 	
 	@Override
 	public void init() {
 
-		tileMap = new TileMap(30);
-		tileMap.loadTiles("/Tilesets/grasstileset.gif");
-		tileMap.loadMap("/Maps/level1-1.map");
-		tileMap.setPosition(0, 0);
-
-		background = new Background("/Backgrounds/grassbg1.gif",0.1);
+		player = new Player(tileMap);
+		player.setPosition(100, 100);
 		
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		
+		if(player != null) player.update();
 		
 	}
 
@@ -43,18 +47,34 @@ public class Level1State extends GameState{
 		//Draw Tilemap
 		tileMap.draw(graphics);
 		
-	}
-
-	@Override
-	public void keyPressed(int key) {
-		// TODO Auto-generated method stub
+		//DrawPlayer
+		if(player != null) player.draw(graphics);
 		
 	}
 
 	@Override
-	public void keyReleased(int key) {
-		// TODO Auto-generated method stub
-		
+	public void keyPressed(int k) {
+		if(k == KeyEvent.VK_LEFT) player.setLeft(true);
+		if(k == KeyEvent.VK_RIGHT) player.setRight(true);
+		if(k == KeyEvent.VK_UP) player.setUp(true);
+		if(k == KeyEvent.VK_DOWN) player.setDown(true);
+		if(k == KeyEvent.VK_W) player.setJumping(true);
+		if(k == KeyEvent.VK_E) player.setGliding(true);
+		if(k == KeyEvent.VK_R) player.setScratching(true);
+		if(k == KeyEvent.VK_F) player.setFiring(true);
 	}
+	
+	@Override
+	public void keyReleased(int k) {
+		if(k == KeyEvent.VK_LEFT) player.setLeft(false);
+		if(k == KeyEvent.VK_RIGHT) player.setRight(false);
+		if(k == KeyEvent.VK_UP) player.setUp(false);
+		if(k == KeyEvent.VK_DOWN) player.setDown(false);
+		if(k == KeyEvent.VK_W) player.setJumping(false);
+		if(k == KeyEvent.VK_E) player.setGliding(false);
+		if(k == KeyEvent.VK_R) player.setScratching(false);
+		if(k == KeyEvent.VK_F) player.setFiring(false);
+	}
+	
 
 }

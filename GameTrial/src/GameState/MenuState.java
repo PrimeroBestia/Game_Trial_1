@@ -2,9 +2,11 @@ package GameState;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import Main.GamePanel;
 import TileMap.Background;
 
 public class MenuState extends GameState{
@@ -14,6 +16,7 @@ public class MenuState extends GameState{
 	public static final int START = 0;
 	public static final int HELP = 1;
 	public static final int QUIT = 2;
+	public static final String TITLE = "GAME";
 	
 	
 	//Menu Screen Options
@@ -36,7 +39,7 @@ public class MenuState extends GameState{
 		try {
 			
 			background = new Background("/Backgrounds/grassbg1.gif",1);
-			background.setVector(-0.1, 0);
+			background.setVector(1, 0);
 			
 			titleColor = new Color(128,0,0);
 			titleFont = new Font("Century Gothic", Font.PLAIN, 28);
@@ -64,13 +67,14 @@ public class MenuState extends GameState{
 	@Override
 	public void draw(Graphics2D graphics) {
 		// TODO Auto-generated method stub
+		
 		//Draw Background
 		background.draw(graphics);
 		
 		//Draw Title
 		graphics.setColor(titleColor);
 		graphics.setFont(titleFont);
-		graphics.drawString("Game", 80, 70);
+		textCenterDrawString(TITLE, graphics, 0, -40, titleFont);
 		
 		//Draw Menu Options
 		graphics.setFont(font);
@@ -81,7 +85,7 @@ public class MenuState extends GameState{
 			else {
 				graphics.setColor(Color.RED);
 			}
-			graphics.drawString(options[i], 145, 140 + (i * 15));
+			textCenterDrawString(options[i], graphics, 0, 30 + (i*15), font);
 		}
 		
 	}
@@ -119,6 +123,19 @@ public class MenuState extends GameState{
 	@Override
 	public void keyReleased(int key) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	//Draw string at the center of screens
+	private void textCenterDrawString(String text, Graphics2D graphics, int xOffset, int yOffset, Font font) {
+
+	    FontMetrics metrics = graphics.getFontMetrics(font);
+	    // Determine the X coordinate for the text
+	    int x = (GamePanel.WIDTH - metrics.stringWidth(text)) / 2;
+	    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+	    int y = (GamePanel.HEIGHT - metrics.getHeight()) / 2 + metrics.getAscent();
+		graphics.drawString(text, x + xOffset, y + yOffset);
 		
 	}
 

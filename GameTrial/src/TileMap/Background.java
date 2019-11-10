@@ -50,18 +50,21 @@ public class Background {
 
 	public void draw(Graphics2D graphics) {
 		
-		if(graphics == null) {
-			System.out.println("Graphics NUll");
-			System.exit(0);
-		}
-		
 		graphics.drawImage(image, (int)x, (int)y, null);
 		if(x < 0) {
-			graphics.drawImage(image, (int)x + GamePanel.WIDTH, (int)y, null);
+			x +=  GamePanel.WIDTH;
 		}
-		if(x > 0) {
-			graphics.drawImage(image, (int)x - GamePanel.WIDTH, (int)y, null);
+		else if(x > 0) {
+			x -= GamePanel.WIDTH;
 		}
+		if(y < 0) {
+			y +=  GamePanel.HEIGHT;
+		}
+		else if(y > 0) {
+			y -= GamePanel.HEIGHT;
+		}
+		graphics.drawImage(image, (int)x, (int)y, null);
+		
 	}
 
 }
