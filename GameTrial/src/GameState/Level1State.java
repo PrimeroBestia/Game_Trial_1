@@ -76,5 +76,4 @@ public class Level1State extends GameState{
 		if(k == KeyEvent.VK_F) player.setFiring(false);
 	}
 	
-
 }

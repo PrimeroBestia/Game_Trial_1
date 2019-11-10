@@ -38,8 +38,8 @@ public class MenuState extends GameState{
 		
 		try {
 			
-			background = new Background("/Backgrounds/grassbg1.gif",1);
-			background.setVector(1, 0);
+			background = new Background("/Backgrounds/background-mountain.gif",1);
+			background.setVector(0, 0);
 			
 			titleColor = new Color(128,0,0);
 			titleFont = new Font("Century Gothic", Font.PLAIN, 28);
