@@ -10,15 +10,15 @@ import Main.GamePanel;
 import TileMap.Background;
 
 public class MenuState extends GameState{
-	
+
 	private Background background;
-	
+
 	public static final int START = 0;
 	public static final int HELP = 1;
 	public static final int QUIT = 2;
 	public static final String TITLE = "GAME";
-	
-	
+
+
 	//Menu Screen Options
 	private int currentChoice;
 	private String[] options = {
@@ -26,36 +26,36 @@ public class MenuState extends GameState{
 			"Help",
 			"Quit"
 	};
-	
+
 	private Color titleColor;
 	private Font titleFont;
-	
+
 	private Font font;
-	
-	
+
+
 	public MenuState(GameStateManager gameStateManager) {
 		this.gameStateManager = gameStateManager;
-		
+
 		try {
-			
+
 			background = new Background("/Backgrounds/background-mountain.gif",1);
 			background.setVector(0, 0);
-			
+
 			titleColor = new Color(128,0,0);
 			titleFont = new Font("Century Gothic", Font.PLAIN, 28);
-			
+
 			font = new Font("Arial", Font.PLAIN	, 12);
-			
+
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -67,15 +67,15 @@ public class MenuState extends GameState{
 	@Override
 	public void draw(Graphics2D graphics) {
 		// TODO Auto-generated method stub
-		
+
 		//Draw Background
 		background.draw(graphics);
-		
+
 		//Draw Title
 		graphics.setColor(titleColor);
 		graphics.setFont(titleFont);
 		textCenterDrawString(TITLE, graphics, 0, -40, titleFont);
-		
+
 		//Draw Menu Options
 		graphics.setFont(font);
 		for(int i = 0; i < options.length; i++) {
@@ -87,7 +87,7 @@ public class MenuState extends GameState{
 			}
 			textCenterDrawString(options[i], graphics, 0, 30 + (i*15), font);
 		}
-		
+
 	}
 
 	private void selectMenu() {
@@ -104,11 +104,11 @@ public class MenuState extends GameState{
 				break;
 		}
 	}
-	
+
 	@Override
 	public void keyPressed(int key) {
 		// TODO Auto-generated method stub
-		if(key == KeyEvent.VK_ENTER) 
+		if(key == KeyEvent.VK_ENTER)
 			selectMenu();
 		if(key == KeyEvent.VK_UP) {
 			currentChoice--;
@@ -123,10 +123,10 @@ public class MenuState extends GameState{
 	@Override
 	public void keyReleased(int key) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
+
+
 	//Draw string at the center of screens
 	private void textCenterDrawString(String text, Graphics2D graphics, int xOffset, int yOffset, Font font) {
 
@@ -136,7 +136,7 @@ public class MenuState extends GameState{
 	    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
 	    int y = (GamePanel.HEIGHT - metrics.getHeight()) / 2 + metrics.getAscent();
 		graphics.drawString(text, x + xOffset, y + yOffset);
-		
+
 	}
 
 }

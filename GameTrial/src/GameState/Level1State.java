@@ -9,12 +9,12 @@ import TileMap.Background;
 import TileMap.TileMap;
 
 public class Level1State extends GameState{
-	
+
 	private TileMap tileMap;
 	private Background background;
-	
+
 	private Player player;
-	
+
 	public Level1State(GameStateManager gameStateManager) {
 		this.gameStateManager = gameStateManager;
 		tileMap = new TileMap(30);
@@ -24,23 +24,26 @@ public class Level1State extends GameState{
 		tileMap.setTween(1);
 		background = new Background("/Backgrounds/menubg.gif",0.1);
 	}
-	
+
 	@Override
 	public void init() {
 
 		player = new Player(tileMap);
 		player.setPosition(100, 100);
-		
+
 	}
 
 	@Override
 	public void update() {
-		
+
 		if(player != null) {
 			player.update();
 			tileMap.setPosition(GamePanel.WIDTH / 2  - player.getx(), GamePanel.HEIGHT / 2 - player.gety());
+			if(player.notOnScreen() == true){
+				System.out.print("Is dead");
+			}
 		}
-		
+
 	}
 
 	@Override
@@ -48,13 +51,13 @@ public class Level1State extends GameState{
 
 		//Draw Background
 		background.draw(graphics);
-		
+
 		//Draw Tilemap
 		tileMap.draw(graphics);
-		
+
 		//DrawPlayer
 		if(player != null) player.draw(graphics);
-		
+
 	}
 
 	@Override
@@ -68,7 +71,7 @@ public class Level1State extends GameState{
 		if(k == KeyEvent.VK_R) player.setScratching(true);
 		if(k == KeyEvent.VK_F) player.setFiring(true);
 	}
-	
+
 	@Override
 	public void keyReleased(int k) {
 		if(k == KeyEvent.VK_LEFT) player.setLeft(false);
@@ -80,5 +83,5 @@ public class Level1State extends GameState{
 		if(k == KeyEvent.VK_R) player.setScratching(false);
 		if(k == KeyEvent.VK_F) player.setFiring(false);
 	}
-	
+
 }

@@ -17,30 +17,30 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	//Screen Dimensions
 	public static final int WIDTH = 320;
 	public static final int HEIGHT = 240;
-	public static final int SCALE = 4;
-	
-	
+	public static final int SCALE = 1;
+
+
 	//Threads
 	private Thread thread;
 	private boolean running;
 	private int FPS = 60;
 	private long targetTime = 1000/FPS;
-	
+
 	//Image
 	private BufferedImage image;
 	private	Graphics2D graphics;
-	
+
 	//Game State Manager
 	private GameStateManager gameStateManager;
-	
-	
+
+
 	public GamePanel() {
 		super();
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT*SCALE));
 		setFocusable(true);
 		requestFocus();
 	}
-	
+
 	@Override
 	public void addNotify() {
 		super.addNotify();
@@ -50,37 +50,37 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			thread.start();
 		}
 	}
-	
+
 	public void init() {
 		image = new BufferedImage(WIDTH, HEIGHT,BufferedImage.TYPE_INT_RGB);
 		graphics = image.createGraphics();
 		running = true;
 		gameStateManager = new GameStateManager();
 	}
-	
+
 	@Override
 	public void run() {
-		
+
 		init();
-		
+
 		long start;
 		long elapsed;
 		long wait;
-		
+
 		//Game Loop
-		
+
 		while(running) {
-			
+
 			start = System.nanoTime();
-			
+
 			update();
 			draw();
 			drawToScreen();
-			
+
 			elapsed = System.nanoTime() - start;
 			wait = targetTime - (elapsed / 1000000);
 			if(wait < 0) wait = 1;
-			
+
 			try {
 				Thread.sleep(wait);
 			}
@@ -88,17 +88,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	public void update() {
 		gameStateManager.update();
 	}
-	
+
 	public void draw() {
 		gameStateManager.draw(graphics);
 	}
-	
+
 	public void drawToScreen() {
 		Graphics screen = getGraphics();
 		screen.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
@@ -120,7 +120,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	@Override
 	public void keyTyped(KeyEvent key) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }
