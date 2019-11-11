@@ -126,17 +126,4 @@ public class MenuState extends GameState{
 
 	}
 
-
-	//Draw string at the center of screens
-	private void textCenterDrawString(String text, Graphics2D graphics, int xOffset, int yOffset, Font font) {
-
-	    FontMetrics metrics = graphics.getFontMetrics(font);
-	    // Determine the X coordinate for the text
-	    int x = (GamePanel.WIDTH - metrics.stringWidth(text)) / 2;
-	    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-	    int y = (GamePanel.HEIGHT - metrics.getHeight()) / 2 + metrics.getAscent();
-		graphics.drawString(text, x + xOffset, y + yOffset);
-
-	}
-
 }

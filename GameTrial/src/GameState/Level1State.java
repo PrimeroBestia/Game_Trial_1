@@ -1,5 +1,6 @@
 package GameState;
 
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
@@ -38,10 +39,12 @@ public class Level1State extends GameState{
 
 		if(player != null) {
 			player.update();
-			tileMap.setPosition(GamePanel.WIDTH / 2  - player.getx(), GamePanel.HEIGHT / 2 - player.gety());
-			if(player.notOnScreen() == true){
-				System.out.print("Is dead");
-			}
+			if(!player.isDead()) 
+				tileMap.setPosition(GamePanel.WIDTH / 2  - player.getx(), GamePanel.HEIGHT / 2 - player.gety());
+			else
+				player.setPosition(player.getx(), GamePanel.HEIGHT + 30);
+			if(player.notOnScreen())
+				player.setDead(true);
 		}
 
 	}
@@ -49,6 +52,7 @@ public class Level1State extends GameState{
 	@Override
 	public void draw(Graphics2D graphics) {
 
+		Font font = new Font("Arial", Font.PLAIN, 28);
 		//Draw Background
 		background.draw(graphics);
 
@@ -56,7 +60,12 @@ public class Level1State extends GameState{
 		tileMap.draw(graphics);
 
 		//DrawPlayer
-		if(player != null) player.draw(graphics);
+		if(player != null) {
+			player.draw(graphics);
+			if(player.isDead()){
+				textCenterDrawString("Dead", graphics, 0, 0, font);
+			}
+		}
 
 	}
 

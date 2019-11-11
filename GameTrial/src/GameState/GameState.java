@@ -17,7 +17,7 @@ public abstract class GameState {
 
 
 	//Draw string at the center of screens
-	private void textCenterDrawString(String text, Graphics2D graphics, int xOffset, int yOffset, Font font) {
+	public void textCenterDrawString(String text, Graphics2D graphics, int xOffset, int yOffset, Font font) {
 
 	    FontMetrics metrics = graphics.getFontMetrics(font);
 	    // Determine the X coordinate for the text

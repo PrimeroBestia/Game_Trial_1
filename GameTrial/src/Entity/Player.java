@@ -113,6 +113,7 @@ public class Player extends MapObject {
 	public int getMaxFire() {return maxFire;}
 	public int getHealth() {return health;}
 	public int getMaxHealth() {return maxHealth;}
+	public boolean isDead() {return dead;}
 
 	public void setFiring(boolean b) {
 		firing = b;
@@ -125,7 +126,11 @@ public class Player extends MapObject {
 	public void setGliding(boolean b) {
 		gliding = b;
 	}
-
+	
+	public void setDead(boolean b) {
+		dead = b;
+	}
+	
 	public void getNextPosition() {
 
 		if(left) {
