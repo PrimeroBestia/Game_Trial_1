@@ -15,6 +15,8 @@ public class Level1State extends GameState{
 	private Background background;
 
 	private Player player;
+	
+	private boolean resetWorld;
 
 	public Level1State(GameStateManager gameStateManager) {
 		this.gameStateManager = gameStateManager;
@@ -24,6 +26,7 @@ public class Level1State extends GameState{
 		tileMap.setPosition(0, 0);
 		tileMap.setTween(1);
 		background = new Background("/Backgrounds/menubg.gif",0.1);
+		resetWorld = false;
 	}
 
 	@Override
@@ -36,15 +39,16 @@ public class Level1State extends GameState{
 
 	@Override
 	public void update() {
-
 		if(player != null) {
 			player.update();
-			if(!player.isDead()) 
+			if(!player.isDead()) {
 				tileMap.setPosition(GamePanel.WIDTH / 2  - player.getx(), GamePanel.HEIGHT / 2 - player.gety());
+			}
 			else
-				player.setPosition(player.getx(), GamePanel.HEIGHT + 30);
-			if(player.notOnScreen())
+				player.setPosition(player.getx(), GamePanel.HEIGHT * 2);
+			if(player.gety() > GamePanel.HEIGHT) {
 				player.setDead(true);
+			}
 		}
 
 	}
@@ -79,6 +83,7 @@ public class Level1State extends GameState{
 		if(k == KeyEvent.VK_E) player.setGliding(true);
 		if(k == KeyEvent.VK_R) player.setScratching(true);
 		if(k == KeyEvent.VK_F) player.setFiring(true);
+		
 	}
 
 	@Override

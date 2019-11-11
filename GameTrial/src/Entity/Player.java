@@ -77,6 +77,8 @@ public class Player extends MapObject {
 
 		scratchDamage = 8;
 		scratchRange = 40;
+		
+		dead = false;
 
 		try {
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream("/Sprites/Player/playersprites.gif"));
