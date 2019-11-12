@@ -77,7 +77,7 @@ public class Player extends MapObject {
 
 		scratchDamage = 8;
 		scratchRange = 40;
-		
+
 		dead = false;
 
 		try {
@@ -128,11 +128,11 @@ public class Player extends MapObject {
 	public void setGliding(boolean b) {
 		gliding = b;
 	}
-	
+
 	public void setDead(boolean b) {
 		dead = b;
 	}
-	
+
 	public void getNextPosition() {
 
 		if(left) {
@@ -168,7 +168,7 @@ public class Player extends MapObject {
 
 		if(falling) {
 
-			if(dy > 0 && gliding) dy+= fallSpeed * 0.1;
+			if(dy > 0 && gliding) dy+= fallSpeed * 0.005;
 			else dy += fallSpeed;
 
 			if(dy > 0) jumping = false;
