@@ -38,7 +38,7 @@ public class MenuState extends GameState{
 
 		try {
 
-			background = new Background("/Backgrounds/background-mountain.gif",1);
+			background = new Background("/Backgrounds/nurse.png",1);
 			background.setVector(0, 0);
 
 			titleColor = new Color(128,0,0);
@@ -74,7 +74,7 @@ public class MenuState extends GameState{
 		//Draw Title
 		graphics.setColor(titleColor);
 		graphics.setFont(titleFont);
-		textCenterDrawString(TITLE, graphics, 0, -40, titleFont);
+		//textCenterDrawString(TITLE, graphics, 0, -40, titleFont);
 
 		//Draw Menu Options
 		graphics.setFont(font);
@@ -83,7 +83,7 @@ public class MenuState extends GameState{
 				graphics.setColor(Color.BLACK);
 			}
 			else {
-				graphics.setColor(Color.RED);
+				graphics.setColor(Color.WHITE);
 			}
 			textCenterDrawString(options[i], graphics, 0, 30 + (i*15), font);
 		}
