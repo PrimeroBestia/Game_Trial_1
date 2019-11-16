@@ -187,7 +187,7 @@ public abstract class MapObject {
 		ymap = tileMap.gety();
 	}
 
-	public void drawFaceRight(Graphics2D graphics) {
+	public void draw(Graphics2D graphics) {
 		if(facingRight) {
 			graphics.drawImage(animation.getImage(), (int)(x + xmap - width / 2), (int)(y + ymap - height / 2), null);
 		}

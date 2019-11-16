@@ -280,7 +280,6 @@ public class Player extends MapObject {
 
 	public void draw(Graphics2D graphics) {
 		setMapPosition();
-		drawFaceRight(graphics);
 		for(FireBall fb: fireBalls) {
 			fb.draw(graphics);
 		}
@@ -291,9 +290,8 @@ public class Player extends MapObject {
 				return;
 			}
 		}
-
-		graphics.drawString((x + xmap - width / 2)+","+(y + ymap - height / 2),20,20);
-		graphics.drawString((xtemp)+","+(ytemp),20,40);
+		
+		super.draw(graphics);
 
 	}
 

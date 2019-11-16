@@ -37,7 +37,6 @@ public class FireBall extends MapObject{
 			animation.setDelay(70);
 		}
 		catch(Exception e) {
-			
 		}
 	}
 	
@@ -69,7 +68,7 @@ public class FireBall extends MapObject{
 	public void draw(Graphics2D graphics) {
 		
 		setMapPosition();
-		drawFaceRight(graphics);
+		super.draw(graphics);
 		
 	}
 }
