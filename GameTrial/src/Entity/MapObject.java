@@ -1,5 +1,6 @@
 package Entity;
 
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import Main.GamePanel;
@@ -186,6 +187,15 @@ public abstract class MapObject {
 		ymap = tileMap.gety();
 	}
 
+	public void drawFaceRight(Graphics2D graphics) {
+		if(facingRight) {
+			graphics.drawImage(animation.getImage(), (int)(x + xmap - width / 2), (int)(y + ymap - height / 2), null);
+		}
+		else {
+			graphics.drawImage(animation.getImage(), (int)(x + xmap - width / 2 + width), (int)(y + ymap - height / 2), -width, height, null);
+		}
+	}
+	
 	public void setLeft(boolean b) { left = b; }
 	public void setRight(boolean b) { right = b; }
 	public void setUp(boolean b) { up = b; }

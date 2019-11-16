@@ -23,7 +23,7 @@ public class Player extends MapObject {
 	private boolean firing;
 	private int fireCost;
 	private int fireBallDamage;
-	//private ArrayList<FireBall> fireBalls;
+	private ArrayList<FireBall> fireBalls;
 
 	//Scratch
 	private boolean scratching;
@@ -73,13 +73,13 @@ public class Player extends MapObject {
 
 		fireCost = 200;
 		fireBallDamage = 5;
-		//fireBalls = new ArrayList<FireBall>;
+		fireBalls = new ArrayList<FireBall>();
 
 		scratchDamage = 8;
 		scratchRange = 40;
 
 		dead = false;
-
+		
 		try {
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream("/Sprites/Player/playersprites.gif"));
 			sprites = new ArrayList<BufferedImage[]>();
@@ -87,11 +87,11 @@ public class Player extends MapObject {
 				BufferedImage[] images = new BufferedImage[numFrames[i]];
 
 				for(int j = 0; j < numFrames[i]; j++) {
-					if(i == 6) {
-						images[j] = spriteSheet.getSubimage(j * width * 2, i * height, width, height);
+					if(i != SCRATCHING) {
+						images[j] = spriteSheet.getSubimage(j * width, i * height, width, height);
 					}
 					else {
-						images[j] = spriteSheet.getSubimage(j * width, i * height, width, height);
+						images[j] = spriteSheet.getSubimage(j * width * 2, i * height, width * 2, height);
 					}
 				}
 
@@ -187,6 +187,23 @@ public class Player extends MapObject {
 		checkTileMapCollision();
 		setPosition(xtemp,ytemp);
 
+		//Check Attack animation
+		if(currentAction == SCRATCHING) 
+			if(animation.hasPlayedOnce()) scratching = false;
+		if(currentAction == FIREBALL)
+			if(animation.hasPlayedOnce()) firing = false;
+		
+		//FireBall attack
+		fire += 1;
+		if(fire > maxFire) fire = maxFire;
+
+		for(int i = 0; i < fireBalls.size(); i++) {
+			fireBalls.get(i).update();
+			if(fireBalls.get(i).shouldRemove()) {
+				fireBalls.remove(i); 
+				i--;
+			}
+		}
 		//set animation
 		if(scratching) {
 			if(currentAction != SCRATCHING) {
@@ -202,6 +219,13 @@ public class Player extends MapObject {
 				animation.setFrames(sprites.get(FIREBALL));
 				animation.setDelay(100);
 				width = 30;
+				
+				if(fire > fireCost) {
+					fire -= fireCost;
+					FireBall fb = new FireBall(tileMap, facingRight);
+					fb.setPosition(x, y);
+					fireBalls.add(fb);
+				}
 			}
 		}
 		else if (dy > 0) {
@@ -256,7 +280,10 @@ public class Player extends MapObject {
 
 	public void draw(Graphics2D graphics) {
 		setMapPosition();
-
+		drawFaceRight(graphics);
+		for(FireBall fb: fireBalls) {
+			fb.draw(graphics);
+		}
 		//draw player
 		if(flinching) {
 			long elapsed =(System.nanoTime() - flinchTimer) / 1000000;
@@ -265,12 +292,6 @@ public class Player extends MapObject {
 			}
 		}
 
-		if(facingRight) {
-			graphics.drawImage(animation.getImage(), (int)(x + xmap - width / 2), (int)(y + ymap - height / 2), null);
-		}
-		else {
-			graphics.drawImage(animation.getImage(), (int)(x + xmap - width / 2 + width), (int)(y + ymap - height / 2), -width, height, null);
-		}
 		graphics.drawString((x + xmap - width / 2)+","+(y + ymap - height / 2),20,20);
 		graphics.drawString((xtemp)+","+(ytemp),20,40);
 

@@ -16,17 +16,14 @@ public class Level1State extends GameState{
 
 	private Player player;
 
-	private boolean resetWorld;
-
 	public Level1State(GameStateManager gameStateManager) {
 		this.gameStateManager = gameStateManager;
 		tileMap = new TileMap(30);
 		tileMap.loadTiles("/Tilesets/grasstileset.gif");
 		tileMap.loadMap("/Maps/level1-1.map");
 		tileMap.setPosition(0, 0);
-		tileMap.setTween(1);
+		tileMap.setTween(0.1);
 		background = new Background("/Backgrounds/menubg.gif",0.1);
-		resetWorld = false;
 	}
 
 	@Override
@@ -45,6 +42,7 @@ public class Level1State extends GameState{
 				if(player.notOnScreen())
 					player.setPosition(100, 100);
 				tileMap.setPosition(GamePanel.WIDTH / 2  - player.getx(), GamePanel.HEIGHT / 2 - player.gety());
+				background.setPosition(tileMap.getx(), tileMap.gety());
 			}
 			else
 				player.setPosition(player.getx(), GamePanel.HEIGHT * 2);
@@ -96,8 +94,6 @@ public class Level1State extends GameState{
 		if(k == KeyEvent.VK_DOWN) player.setDown(false);
 		if(k == KeyEvent.VK_W) player.setJumping(false);
 		if(k == KeyEvent.VK_E) player.setGliding(false);
-		if(k == KeyEvent.VK_R) player.setScratching(false);
-		if(k == KeyEvent.VK_F) player.setFiring(false);
 	}
 
 }
