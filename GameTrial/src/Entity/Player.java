@@ -215,6 +215,7 @@ public class Player extends MapObject {
 		}
 		else if(firing) {
 			if(currentAction != FIREBALL) {
+
 				currentAction = FIREBALL;
 				animation.setFrames(sprites.get(FIREBALL));
 				animation.setDelay(100);
@@ -226,6 +227,7 @@ public class Player extends MapObject {
 					fb.setPosition(x, y);
 					fireBalls.add(fb);
 				}
+				
 			}
 		}
 		else if (dy > 0) {

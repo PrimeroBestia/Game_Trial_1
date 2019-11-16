@@ -1,5 +1,6 @@
 package Entity;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -24,9 +25,11 @@ public class HUD {
 	
 	public void draw(Graphics2D graphics) {
 		
-		graphics.drawImage(image, 0, 20, null);
+		graphics.drawImage(image, 0, 10, null);
 		graphics.setFont(font);
-		
+		graphics.setColor(Color.WHITE);
+		graphics.drawString(player.getHealth() + "/" + player.getMaxHealth(), 30, 25);
+		graphics.drawString(player.getFire() / 100 + "/" + player.getMaxFire() / 100, 30, 45);
 		
 	}
 }
