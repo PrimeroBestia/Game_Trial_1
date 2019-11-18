@@ -3,8 +3,12 @@ package GameState;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
+import Entity.Enemy;
+import Entity.HUD;
 import Entity.Player;
+import Entity.Enemies.Slow;
 import Main.GamePanel;
 import TileMap.Background;
 import TileMap.TileMap;
@@ -16,55 +20,63 @@ public class Level1State extends GameState{
 
 	private Player player;
 
-	private boolean resetWorld;
-
+	private ArrayList<Enemy> enemies;
+	
+	private HUD hud;
+	
 	public Level1State(GameStateManager gameStateManager) {
 		this.gameStateManager = gameStateManager;
 		tileMap = new TileMap(30);
 		tileMap.loadTiles("/Tilesets/grasstileset.gif");
 		tileMap.loadMap("/Maps/level1-1.map");
-		tileMap.setPosition(0, 0);
-		tileMap.setTween(1);
 		background = new Background("/Backgrounds/menubg.gif",0.1);
-		resetWorld = false;
+		tileMap.setPosition(0, 0);
+		tileMap.setTween(0.1);
+		player = new Player(tileMap);
 	}
 
 	@Override
 	public void init() {
 
-		player = new Player(tileMap);
 		player.setPosition(100, 100);
-
+		enemies = new ArrayList<Enemy>();
+		Slow s = new Slow(tileMap);
+		s.setPosition(100, 100);
+		enemies.add(s);
+		hud = new HUD(player);
+		
 	}
 
 	@Override
 	public void update() {
-		if(player != null) {
+		try {
 			player.update();
-			if(!player.isDead()) {
-				if(player.notOnScreen())
-					player.setPosition(100, 100);
-				tileMap.setPosition(GamePanel.WIDTH / 2  - player.getx(), GamePanel.HEIGHT / 2 - player.gety());
-			}
-			else
-				player.setPosition(player.getx(), GamePanel.HEIGHT * 2);
-			if(player.gety() > GamePanel.HEIGHT) {
-				player.setDead(true);
+			tileMap.setPosition(GamePanel.WIDTH / 2  - player.getx(), GamePanel.HEIGHT / 2 - player.gety());
+			background.setPosition(tileMap.getx(), tileMap.gety());
+
+			for(int i = 0; i < enemies.size(); i++) {
+				enemies.get(i).update();
 			}
 		}
-
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
 	public void draw(Graphics2D graphics) {
-
+		
 		Font font = new Font("Arial", Font.PLAIN, 28);
 		//Draw Background
 		background.draw(graphics);
 
 		//Draw Tilemap
 		tileMap.draw(graphics);
-
+		
+		//HUD draw
+		hud.draw(graphics);
+		
 		//DrawPlayer
 		if(player != null) {
 			player.draw(graphics);
@@ -72,7 +84,9 @@ public class Level1State extends GameState{
 				textCenterDrawString("Dead", graphics, 0, 0, font);
 			}
 		}
-
+		for(Enemy e: enemies) {
+			e.draw(graphics);
+		}
 	}
 
 	@Override
@@ -96,8 +110,6 @@ public class Level1State extends GameState{
 		if(k == KeyEvent.VK_DOWN) player.setDown(false);
 		if(k == KeyEvent.VK_W) player.setJumping(false);
 		if(k == KeyEvent.VK_E) player.setGliding(false);
-		if(k == KeyEvent.VK_R) player.setScratching(false);
-		if(k == KeyEvent.VK_F) player.setFiring(false);
 	}
 
 }
