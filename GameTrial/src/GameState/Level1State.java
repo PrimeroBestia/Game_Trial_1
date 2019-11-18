@@ -21,9 +21,9 @@ public class Level1State extends GameState{
 	private Player player;
 
 	private ArrayList<Enemy> enemies;
-	
+
 	private HUD hud;
-	
+
 	public Level1State(GameStateManager gameStateManager) {
 		this.gameStateManager = gameStateManager;
 		tileMap = new TileMap(30);
@@ -41,10 +41,10 @@ public class Level1State extends GameState{
 		player.setPosition(100, 100);
 		enemies = new ArrayList<Enemy>();
 		Slow s = new Slow(tileMap);
-		s.setPosition(100, 100);
+		s.setPosition(150, 200);
 		enemies.add(s);
 		hud = new HUD(player);
-		
+
 	}
 
 	@Override
@@ -56,27 +56,31 @@ public class Level1State extends GameState{
 
 			for(int i = 0; i < enemies.size(); i++) {
 				enemies.get(i).update();
+				if(player.intersects(enemies.get(i))){
+					player.takeDamage(enemies.get(i).getDamage());
+				}
+
 			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
 	public void draw(Graphics2D graphics) {
-		
+
 		Font font = new Font("Arial", Font.PLAIN, 28);
 		//Draw Background
 		background.draw(graphics);
 
 		//Draw Tilemap
 		tileMap.draw(graphics);
-		
+
 		//HUD draw
 		hud.draw(graphics);
-		
+
 		//DrawPlayer
 		if(player != null) {
 			player.draw(graphics);

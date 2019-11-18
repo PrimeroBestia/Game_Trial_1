@@ -195,7 +195,7 @@ public abstract class MapObject {
 			graphics.drawImage(animation.getImage(), (int)(x + xmap - width / 2 + width), (int)(y + ymap - height / 2), -width, height, null);
 		}
 	}
-	
+
 	public void setLeft(boolean b) { left = b; }
 	public void setRight(boolean b) { right = b; }
 	public void setUp(boolean b) { up = b; }

@@ -18,6 +18,7 @@ public class Player extends MapObject {
 	private boolean dead;
 	private boolean flinching;
 	private long flinchTimer;
+	private long flinchTime;
 
 	//Fire ball
 	private boolean firing;
@@ -67,6 +68,8 @@ public class Player extends MapObject {
 		stopJumpSpeed = 0.3;
 
 		facingRight = true;
+		flinchTimer = 100;
+		flinchTime = 0;
 
 		health = maxHealth = 5;
 		fire = maxFire = 2500;
@@ -79,7 +82,7 @@ public class Player extends MapObject {
 		scratchRange = 40;
 
 		dead = false;
-		
+
 		try {
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream("/Sprites/Player/playersprites.gif"));
 			sprites = new ArrayList<BufferedImage[]>();
@@ -180,6 +183,17 @@ public class Player extends MapObject {
 
 	}
 
+	public void takeDamage(int damage) {
+		if(!flinching){
+			if(facingRight)dx = -5;
+			else dx = 5;
+			health -= damage;
+			flinching = true;
+			flinchTime = System.nanoTime();
+		}
+		if(health < 0) dead = true;
+	}
+
 	public void update() {
 
 		//Update new Position
@@ -188,11 +202,11 @@ public class Player extends MapObject {
 		setPosition(xtemp,ytemp);
 
 		//Check Attack animation
-		if(currentAction == SCRATCHING) 
+		if(currentAction == SCRATCHING)
 			if(animation.hasPlayedOnce()) scratching = false;
 		if(currentAction == FIREBALL)
 			if(animation.hasPlayedOnce()) firing = false;
-		
+
 		//FireBall attack
 		fire += 1;
 		if(fire > maxFire) fire = maxFire;
@@ -200,7 +214,7 @@ public class Player extends MapObject {
 		for(int i = 0; i < fireBalls.size(); i++) {
 			fireBalls.get(i).update();
 			if(fireBalls.get(i).shouldRemove()) {
-				fireBalls.remove(i); 
+				fireBalls.remove(i);
 				i--;
 			}
 		}
@@ -220,14 +234,14 @@ public class Player extends MapObject {
 				animation.setFrames(sprites.get(FIREBALL));
 				animation.setDelay(100);
 				width = 30;
-				
+
 				if(fire > fireCost) {
 					fire -= fireCost;
 					FireBall fb = new FireBall(tileMap, facingRight);
 					fb.setPosition(x, y);
 					fireBalls.add(fb);
 				}
-				
+
 			}
 		}
 		else if (dy > 0) {
@@ -270,6 +284,11 @@ public class Player extends MapObject {
 				width = 30;
 			}
 		}
+		if(flinching){
+			if((System.nanoTime() - flinchTime) / 1000000 > 1000){
+				flinching = false;
+			}
+		}
 		animation.update();
 
 		//set Direction
@@ -292,7 +311,7 @@ public class Player extends MapObject {
 				return;
 			}
 		}
-		
+
 		super.draw(graphics);
 
 	}
