@@ -15,39 +15,39 @@ public class Slow extends Enemy{
 
 	public Slow(TileMap tileMap) {
 		super(tileMap);
-		
+
 		moveSpeed = 0.3;
 		maxSpeed = 0.3;
 		fallSpeed = 0.2;
 		maxFallSpeed = 10;
-		
+
 		width = 30;
 		height = 30;
 		cwidth = 20;
 		cheight = 20;
-		
+
 		health = maxHealth = 2;
 		damage = 1;
 		try {
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream("/Sprites/Enemies/slugger.gif"));
 			sprites = new BufferedImage[3];
-			for(int i = 0; i < sprites.length; i ++) 
+			for(int i = 0; i < sprites.length; i ++)
 				sprites[i] = spriteSheet.getSubimage(i * width, 0, width, height);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		animation = new Animation();
 		animation.setFrames(sprites);
 		animation.setDelay(300);
-		
+
 		right = true;
-		
+
 	}
-	
+
 	public void getNextPosition() {
-		
+
 
 		if(left) {
 			dx -= moveSpeed;
@@ -61,22 +61,23 @@ public class Slow extends Enemy{
 				dx = maxSpeed;
 			}
 		}
-		
+
 		if(falling) {
 			dy += fallSpeed;
 		}
 	}
-	
+
 	public void update() {
 
+		if(notOnScreen()) return;
 		//Update new Position
 		getNextPosition();
 		checkTileMapCollision();
 		setPosition(xtemp,ytemp);
-		
+
 		if(flinching) {
 			long elapsed = (System.nanoTime() -flinchTimer)/1000000;
-			if(elapsed > 400) 
+			if(elapsed > 400)
 				flinching = false;
 		}
 		if(dx == 0) {
@@ -84,10 +85,10 @@ public class Slow extends Enemy{
 			left = !left;
 			facingRight = !facingRight;
 		}
-		
+
 		animation.update();
 	}
-	
+
 	public void draw(Graphics2D graphics) {
 		if(notOnScreen()) return;
 		setMapPosition();
