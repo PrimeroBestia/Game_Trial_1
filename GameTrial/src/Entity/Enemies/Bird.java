@@ -1,7 +1,6 @@
 package Entity.Enemies;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
@@ -18,17 +17,17 @@ public class Bird extends Enemy{
 	private int widthFly;
 	private int heightWalk;
 	private int widthWalk;
-	private int heightCrazy;
-	private int widthCrazy;
+	//private int heightCrazy;
+	//private int widthCrazy;
 
 	private long flightTimer;
-	private long walkTimer;
+	//private long walkTimer;
 	private boolean flying;
 	private boolean walking;
 
 	private final int WALKING = 0;
 	private final int FLYING = 1;
-	private final int ATTACK = 2;
+	//private final int ATTACK = 2;
 	private int currentAction;
 
 	public Bird(TileMap tileMap) {
@@ -44,8 +43,8 @@ public class Bird extends Enemy{
 		widthFly = 113;
 		heightWalk = 49;
 		widthWalk = 64;
-		heightCrazy = 0;
-		widthCrazy = 0;
+		//heightCrazy = 0;
+		//widthCrazy = 0;
 
 		walking = false;
 		flying = true;
@@ -151,6 +150,8 @@ public class Bird extends Enemy{
 	}
 
 	public void draw(Graphics2D graphics) {
+		setMapPosition();
+		System.out.println("Bird: x:" + (x+xmap) + " y:" + (y+ymap));
 		if(notOnScreen()) return;
 		if(flinching) {
 			long elapsed =(System.nanoTime() - flinchTimer) / 1000000;
@@ -158,7 +159,6 @@ public class Bird extends Enemy{
 				return;
 			}
 		}
-		setMapPosition();
 		super.draw(graphics);
 	}
 }

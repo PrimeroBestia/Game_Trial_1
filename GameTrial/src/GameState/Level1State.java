@@ -48,7 +48,7 @@ public class Level1State extends GameState{
 		enemies = new ArrayList<Enemy>();
 		explosions = new ArrayList<Explosion>();
 		Bird b = new Bird(tileMap);
-		b.setPosition(150, 100);
+		b.setPosition(3100, 100);
 		enemies.add(b);
 		Slow s = new Slow(tileMap);
 		s.setPosition(150, 100);

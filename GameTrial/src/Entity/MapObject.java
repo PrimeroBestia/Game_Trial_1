@@ -3,6 +3,7 @@ package Entity;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import Main.GamePanel;
 import TileMap.Tile;
 import TileMap.TileMap;
 
@@ -210,10 +211,9 @@ public abstract class MapObject {
 
 	//If object is on screen
 	public boolean notOnScreen() {
-		return false;
-//		return x + xmap + width < 0 ||
-//			x + xmap - width > GamePanel.WIDTH ||
-//			y + ymap + height < 0 ||
-//			y + ymap - height > GamePanel.HEIGHT;
+		return x + xmap + width < 0 ||
+			x + xmap - width > GamePanel.WIDTH ||
+			y + ymap + height < 0 ||
+			y + ymap - height > GamePanel.HEIGHT;
 	}
 }
