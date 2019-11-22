@@ -85,6 +85,7 @@ public class Level1State extends GameState{
 					i--;
 				}
 			}
+
 		}
 		catch(Exception e) {
 		}
