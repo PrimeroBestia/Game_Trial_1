@@ -21,8 +21,19 @@ public class Bird extends Enemy{
 	private int heightCrazy;
 	private int widthCrazy;
 
+	private long flightTimer;
+	private long walkTimer;
+	private boolean flying;
+	private boolean walking;
+
+	private final int WALKING = 0;
+	private final int FLYING = 1;
+	private final int ATTACK = 2;
+	private int currentAction;
+
 	public Bird(TileMap tileMap) {
 		super(tileMap);
+
 
 		moveSpeed = 0.3;
 		maxSpeed = 1.0;
@@ -36,26 +47,35 @@ public class Bird extends Enemy{
 		heightCrazy = 0;
 		widthCrazy = 0;
 
-		width = widthWalk;
-		height = heightWalk;
+		walking = false;
+		flying = true;
+		flightTimer = System.nanoTime();
+
+		width = widthFly;
+		height = heightFly;
 		cwidth = 50;
 		cheight = 50;
 
 		health = maxHealth = 100;
 		damage = 1;
+
+		currentAction = FLYING;
 		try {
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream("/Sprites/Enemies/bird.gif"));
 			sprites = new BufferedImage[3][];
 			sprites[0] = new BufferedImage[2];
+			sprites[1] = new BufferedImage[3];
 			for(int i = 0; i < 2; i ++)
 				sprites[0][i] = spriteSheet.getSubimage(i * widthWalk, 0, widthWalk, heightWalk);
+			for(int i = 0; i < 3; i ++)
+				sprites[1][i] = spriteSheet.getSubimage(i * widthFly, heightWalk, widthFly, heightFly);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 
 		animation = new Animation();
-		animation.setFrames(sprites[0]);
+		animation.setFrames(sprites[currentAction]);
 		animation.setDelay(300);
 
 		right = true;
@@ -64,8 +84,8 @@ public class Bird extends Enemy{
 
 	public void getNextPosition() {
 
-
-		if(left) {
+		if(currentAction == FLYING) dx = 0;
+		else if(left) {
 			dx -= moveSpeed;
 			if(dx < -maxSpeed) {
 				dx = -maxSpeed;
@@ -78,9 +98,10 @@ public class Bird extends Enemy{
 			}
 		}
 
-		if(falling) {
+		if(falling && currentAction == WALKING)
 			dy += fallSpeed;
-		}
+		else
+			dy = 0;
 	}
 
 	public void update() {
@@ -96,12 +117,35 @@ public class Bird extends Enemy{
 			if(elapsed > 400)
 				flinching = false;
 		}
-		if(dx == 0) {
+		if(dx == 0 && currentAction == WALKING) {
 			right = !right;
 			left = !left;
 			facingRight = !facingRight;
 		}
-
+		if(flying){
+			if(currentAction != FLYING){
+				flightTimer = System.nanoTime();
+				currentAction = FLYING;
+				width = widthFly;
+				height = heightFly;
+				animation.setFrames(sprites[FLYING]);
+				animation.setDelay(400);
+			}
+			long elapsed = (System.nanoTime() - flightTimer) / 1000000;
+			if (elapsed > 5000){
+				walking = true;
+				flying = false;
+			}
+		}
+		if(walking){
+			if(currentAction != WALKING){
+				currentAction = WALKING;
+				width = widthWalk;
+				height = heightWalk;
+				animation.setFrames(sprites[WALKING]);
+				animation.setDelay(400);
+			}
+		}
 		animation.update();
 
 	}

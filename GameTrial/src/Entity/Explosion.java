@@ -9,20 +9,19 @@ import TileMap.TileMap;
 
 public class Explosion extends MapObject{
 
-
 	private boolean remove;
 	private BufferedImage[] sprites;
 
-	public Explosion(TileMap tileMap) {
+	public Explosion(TileMap tileMap, int width, int height) {
 		super(tileMap);
 		// TODO Auto-generated constructor stub
-		width = 30;
-		height = 30;
+		this.width = width;
+		this.height = height;
 		try {
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream("/Sprites/Enemies/explosion.gif"));
 			sprites = new BufferedImage[4];
 			for(int i = 0; i < sprites.length; i ++)
-				sprites[i] = spriteSheet.getSubimage(i * width, 0, width, height);
+				sprites[i] = spriteSheet.getSubimage(i * 30, 0, 30, 30);
 
 			animation = new Animation();
 			animation.setFrames(sprites);

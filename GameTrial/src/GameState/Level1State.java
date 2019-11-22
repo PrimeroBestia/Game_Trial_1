@@ -74,7 +74,7 @@ public class Level1State extends GameState{
 					player.takeDamage(e.getDamage());
 				}
 				if(e.isDead()){
-					Explosion explode = new Explosion(tileMap);
+					Explosion explode = new Explosion(tileMap,e.getWidth(),e.getHeight());
 					explode.setPosition(e.getx(), e.gety());
 					explosions.add(explode);
 					enemies.remove(i);

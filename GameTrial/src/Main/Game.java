@@ -7,7 +7,7 @@ public class Game {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JFrame window = new JFrame("Game");
 		window.setLocation(0,600);
-		window.setOpacity(1f);
+		window.setOpacity(0.1f);
 		window.setContentPane(new GamePanel());
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);

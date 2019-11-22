@@ -78,10 +78,10 @@ public class Player extends MapObject {
 		fire = maxFire = 2500;
 
 		fireCost = 200;
-		fireBallDamage = 1;
+		fireBallDamage = 5;
 		fireBalls = new ArrayList<FireBall>();
 
-		scratchDamage = 1;
+		scratchDamage = 5;
 		scratchRange = 40;
 		deathPlayed = false;
 
@@ -286,7 +286,7 @@ public class Player extends MapObject {
 
 				if(fire > fireCost) {
 					fire -= fireCost;
-					FireBall fb = new FireBall(tileMap, facingRight);
+					FireBall fb = new FireBall(tileMap, facingRight, up);
 					fb.setPosition(x, y);
 					fireBalls.add(fb);
 				}
