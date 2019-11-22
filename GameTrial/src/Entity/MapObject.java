@@ -1,11 +1,8 @@
 package Entity;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.geom.Line2D;
 
-import Main.GamePanel;
 import TileMap.Tile;
 import TileMap.TileMap;
 

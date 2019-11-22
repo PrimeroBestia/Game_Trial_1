@@ -1,6 +1,5 @@
 package Entity;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -189,8 +188,8 @@ public class Player extends MapObject {
 
 	public void takeDamage(int damage) {
 		if(!flinching){
-			//if(facingRight)dx = -5;
-			//else dx = 5;
+			if(facingRight)dx = -5;
+			else dx = 5;
 			health -= damage;
 			flinching = true;
 			flinchTime = System.nanoTime();

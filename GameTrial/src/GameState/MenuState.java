@@ -2,11 +2,9 @@ package GameState;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import Main.GamePanel;
 import TileMap.Background;
 
 public class MenuState extends GameState{

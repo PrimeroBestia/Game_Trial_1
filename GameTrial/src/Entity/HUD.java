@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class HUD {
-	
+
 	private Player player;
 	private BufferedImage image;
 	private Font font;
@@ -22,14 +22,14 @@ public class HUD {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void draw(Graphics2D graphics) {
-		
+
 		graphics.drawImage(image, 0, 10, null);
 		graphics.setFont(font);
-		graphics.setColor(Color.WHITE);
+		graphics.setColor(Color.RED);
 		graphics.drawString(player.getHealth() + "/" + player.getMaxHealth(), 30, 25);
 		graphics.drawString(player.getFire() / 100 + "/" + player.getMaxFire() / 100, 30, 45);
-		
+
 	}
 }
