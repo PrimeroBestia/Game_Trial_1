@@ -17,6 +17,7 @@ public abstract class MapObject {
 	protected int tileSize;
 	protected double xmap;
 	protected double ymap;
+	protected boolean outOfBounds;
 
 	// position and vector
 	protected double x;
@@ -100,10 +101,11 @@ public abstract class MapObject {
 		int bl = tileMap.getType(bottomTile, leftTile);
 		int br = tileMap.getType(bottomTile, rightTile);
 
-		topLeft = tl == Tile.BLOCKED;
-		topRight = tr == Tile.BLOCKED;
-		bottomLeft = bl == Tile.BLOCKED;
-		bottomRight = br == Tile.BLOCKED;
+		topLeft = tl == Tile.BLOCKED || tl == Tile.OUTOFBOUND;
+		topRight = tr == Tile.BLOCKED || tr == Tile.OUTOFBOUND;
+		bottomLeft = bl == Tile.BLOCKED || bl == Tile.OUTOFBOUND;
+		bottomRight = br == Tile.BLOCKED || br == Tile.OUTOFBOUND;
+		outOfBounds = tl == Tile.OUTOFBOUND || tr == Tile.OUTOFBOUND || bl == Tile.OUTOFBOUND || br == Tile.OUTOFBOUND;
 
 	}
 

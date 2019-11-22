@@ -35,6 +35,9 @@ public class Player extends MapObject {
 	//Gliding
 	private boolean gliding;
 
+	//Death
+	private boolean deathPlayed;
+
 	//Animations
 	private ArrayList<BufferedImage[]> sprites;
 	private final int[] numFrames = {
@@ -81,8 +84,7 @@ public class Player extends MapObject {
 
 		scratchDamage = 1;
 		scratchRange = 40;
-
-		dead = false;
+		deathPlayed = false;
 
 		try {
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream("/Sprites/Player/playersprites.gif"));
@@ -119,7 +121,8 @@ public class Player extends MapObject {
 	public int getMaxFire() {return maxFire;}
 	public int getHealth() {return health;}
 	public int getMaxHealth() {return maxHealth;}
-	public boolean isDead() {return dead;}
+	public boolean isDead() {return deathPlayed;}
+	public boolean isDeathPlayed() {return deathPlayed;}
 
 	public void setFiring() {
 		firing = true;
@@ -223,6 +226,23 @@ public class Player extends MapObject {
 
 	public void update() {
 
+		if(dead){
+			if(currentAction != SCRATCHING && !deathPlayed){
+				currentAction = SCRATCHING;
+				animation.setFrames(sprites.get(SCRATCHING));
+				animation.setDelay(100);
+				width = 60;
+			}
+			if(currentAction == SCRATCHING && animation.hasPlayedOnce()){
+				currentAction = GLIDING;
+				animation.setFrames(sprites.get(GLIDING));
+				animation.setDelay(50);
+				width = 30;
+				deathPlayed = true;
+			}
+			animation.update();
+			return;
+		}
 		//Update new Position
 		getNextPosition();
 		checkTileMapCollision();
@@ -311,11 +331,8 @@ public class Player extends MapObject {
 				width = 30;
 			}
 		}
-		if(flinching){
-			if((System.nanoTime() - flinchTime) / 1000000 > 1000){
-				flinching = false;
-			}
-		}
+		if(outOfBounds) dead = true;
+
 		animation.update();
 
 		//set Direction
@@ -327,9 +344,18 @@ public class Player extends MapObject {
 	}
 
 	public void draw(Graphics2D graphics) {
+
 		setMapPosition();
+		graphics.drawString("x: "+x, 20, 60);
+		graphics.drawString("y: "+y, 20, 85);
 		for(FireBall fb: fireBalls) {
 			fb.draw(graphics);
+		}
+		if(dead) flinching = false;
+		if(flinching){
+			if((System.nanoTime() - flinchTime) / 1000000 > 1000){
+				flinching = false;
+			}
 		}
 		//draw player
 		if(flinching) {
