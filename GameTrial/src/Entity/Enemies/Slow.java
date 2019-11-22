@@ -91,6 +91,12 @@ public class Slow extends Enemy{
 
 	public void draw(Graphics2D graphics) {
 		if(notOnScreen()) return;
+		if(flinching) {
+			long elapsed =(System.nanoTime() - flinchTimer) / 1000000;
+			if(elapsed / 100 % 2 == 0) {
+				return;
+			}
+		}
 		setMapPosition();
 		super.draw(graphics);
 	}

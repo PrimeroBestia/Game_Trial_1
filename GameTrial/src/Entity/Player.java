@@ -75,7 +75,7 @@ public class Player extends MapObject {
 		fire = maxFire = 2500;
 
 		fireCost = 200;
-		fireBallDamage = 5;
+		fireBallDamage = 1;
 		fireBalls = new ArrayList<FireBall>();
 
 		scratchDamage = 8;
@@ -192,6 +192,16 @@ public class Player extends MapObject {
 			flinchTime = System.nanoTime();
 		}
 		if(health <= 0) dead = true;
+	}
+
+
+	public void fireBallHit(Enemy enemies) {
+		for(int i = 0; i < fireBalls.size(); i++){
+			if(enemies.intersects(fireBalls.get(i))){
+				enemies.hit(fireBallDamage);
+				fireBalls.get(i).setHit();
+			}
+		}
 	}
 
 	public void update() {

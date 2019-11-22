@@ -56,10 +56,14 @@ public class Level1State extends GameState{
 
 			for(int i = 0; i < enemies.size(); i++) {
 				enemies.get(i).update();
+				player.fireBallHit(enemies.get(i));
 				if(player.intersects(enemies.get(i))){
 					player.takeDamage(enemies.get(i).getDamage());
 				}
-
+				if(enemies.get(i).isDead()){
+					enemies.remove(i);
+					i--;
+				}
 			}
 		}
 		catch(Exception e) {
