@@ -115,7 +115,6 @@ public class TileMap {
 	public int getType(int row, int col) {
 		if (row < 0 || col < 0) return Tile.OUTOFBOUND;
 		if (row >= numRows || col >= numCols) return Tile.OUTOFBOUND;
-		System.out.println(numRows +","+ row + "," + numCols);
 		int rowCol = map [row][col];
 		int rows = rowCol / numTilesAcross;
 		int cols = rowCol % numTilesAcross;

@@ -1,7 +1,9 @@
 package Entity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.geom.Line2D;
 
 import Main.GamePanel;
 import TileMap.Tile;
@@ -188,12 +190,14 @@ public abstract class MapObject {
 	}
 
 	public void draw(Graphics2D graphics) {
+
 		if(facingRight) {
 			graphics.drawImage(animation.getImage(), (int)(x + xmap - width / 2), (int)(y + ymap - height / 2), null);
 		}
 		else {
 			graphics.drawImage(animation.getImage(), (int)(x + xmap - width / 2 + width), (int)(y + ymap - height / 2), -width, height, null);
 		}
+
 	}
 
 	public void setLeft(boolean b) { left = b; }
@@ -205,9 +209,10 @@ public abstract class MapObject {
 
 	//If object is on screen
 	public boolean notOnScreen() {
-		return x + xmap + width < 0 ||
-			x + xmap - width > GamePanel.WIDTH ||
-			y + ymap + height < 0 ||
-			y + ymap - height > GamePanel.HEIGHT;
+		return false;
+//		return x + xmap + width < 0 ||
+//			x + xmap - width > GamePanel.WIDTH ||
+//			y + ymap + height < 0 ||
+//			y + ymap - height > GamePanel.HEIGHT;
 	}
 }

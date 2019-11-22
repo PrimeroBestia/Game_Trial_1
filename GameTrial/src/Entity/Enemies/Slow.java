@@ -87,6 +87,7 @@ public class Slow extends Enemy{
 		}
 
 		animation.update();
+
 	}
 
 	public void draw(Graphics2D graphics) {

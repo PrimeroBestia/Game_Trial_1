@@ -19,7 +19,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static final int HEIGHT = 240;
 	public static final int SCALE = 1;
 
-
 	//Threads
 	private Thread thread;
 	private boolean running;
@@ -32,7 +31,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
 	//Game State Manager
 	private GameStateManager gameStateManager;
-
 
 	public GamePanel() {
 		super();

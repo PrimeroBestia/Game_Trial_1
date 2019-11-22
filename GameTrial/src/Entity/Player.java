@@ -1,5 +1,6 @@
 package Entity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class Player extends MapObject {
 		fireBallDamage = 1;
 		fireBalls = new ArrayList<FireBall>();
 
-		scratchDamage = 8;
+		scratchDamage = 1;
 		scratchRange = 40;
 
 		dead = false;
@@ -120,12 +121,12 @@ public class Player extends MapObject {
 	public int getMaxHealth() {return maxHealth;}
 	public boolean isDead() {return dead;}
 
-	public void setFiring(boolean b) {
-		firing = b;
+	public void setFiring() {
+		firing = true;
 	}
 
-	public void setScratching(boolean b) {
-		scratching = b;
+	public void setScratching() {
+		scratching = true;
 	}
 
 	public void setGliding(boolean b) {
@@ -185,8 +186,8 @@ public class Player extends MapObject {
 
 	public void takeDamage(int damage) {
 		if(!flinching){
-			if(facingRight)dx = -5;
-			else dx = 5;
+			//if(facingRight)dx = -5;
+			//else dx = 5;
 			health -= damage;
 			flinching = true;
 			flinchTime = System.nanoTime();
@@ -201,6 +202,22 @@ public class Player extends MapObject {
 				enemies.hit(fireBallDamage);
 				fireBalls.get(i).setHit();
 			}
+		}
+	}
+
+	public void scratchHit(Enemy enemies) {
+		if(!scratching) return;
+		if(!((y + ymap + scratchRange/2) >= (enemies.gety() + ymap)
+				&& (y + ymap - scratchRange/2) <= (enemies.gety() + ymap))) return;
+		if(facingRight){
+			if((x + xmap + scratchRange) >= (enemies.getx() + xmap)
+					&& (enemies.getx() + xmap) >= (x + xmap))
+				enemies.hit(scratchDamage);
+		}
+		else{
+			if((x + xmap - scratchRange) <= (enemies.getx() + xmap)
+					&& (enemies.getx() + xmap) <= (x + xmap))
+				enemies.hit(scratchDamage);
 		}
 	}
 
