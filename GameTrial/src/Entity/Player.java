@@ -194,7 +194,10 @@ public class Player extends MapObject {
 			flinching = true;
 			flinchTime = System.nanoTime();
 		}
-		if(health <= 0) dead = true;
+		if(health <= 0){
+			dead = true;
+			health = 0;
+		}
 	}
 
 

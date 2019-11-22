@@ -1,6 +1,7 @@
 package Entity.Enemies;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
@@ -11,12 +12,12 @@ import TileMap.TileMap;
 
 public class Bird extends Enemy{
 
-	private BufferedImage[] sprites;
+	private BufferedImage[][] sprites;
 
-	private int heightStand;
-	private int widthStand;
-	private int heightWalk = 49;
-	private int widthWalk = 64;
+	private int heightFly;
+	private int widthFly;
+	private int heightWalk;
+	private int widthWalk;
 	private int heightCrazy;
 	private int widthCrazy;
 
@@ -24,29 +25,37 @@ public class Bird extends Enemy{
 		super(tileMap);
 
 		moveSpeed = 0.3;
-		maxSpeed = 0.3;
+		maxSpeed = 1.0;
 		fallSpeed = 0.2;
 		maxFallSpeed = 10;
 
-		width = 30;
-		height = 30;
-		cwidth = 20;
-		cheight = 20;
+		heightFly = 82;
+		widthFly = 113;
+		heightWalk = 49;
+		widthWalk = 64;
+		heightCrazy = 0;
+		widthCrazy = 0;
 
-		health = maxHealth = 2;
+		width = widthWalk;
+		height = heightWalk;
+		cwidth = 50;
+		cheight = 50;
+
+		health = maxHealth = 100;
 		damage = 1;
 		try {
-			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream("/Sprites/Enemies/slugger.gif"));
-			sprites = new BufferedImage[3];
-			for(int i = 0; i < sprites.length; i ++)
-				sprites[i] = spriteSheet.getSubimage(i * width, 0, width, height);
+			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream("/Sprites/Enemies/bird.gif"));
+			sprites = new BufferedImage[3][];
+			sprites[0] = new BufferedImage[2];
+			for(int i = 0; i < 2; i ++)
+				sprites[0][i] = spriteSheet.getSubimage(i * widthWalk, 0, widthWalk, heightWalk);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 
 		animation = new Animation();
-		animation.setFrames(sprites);
+		animation.setFrames(sprites[0]);
 		animation.setDelay(300);
 
 		right = true;

@@ -79,8 +79,8 @@ public abstract class MapObject {
 
 	public Rectangle getRectangle() {
 		return new Rectangle(
-				(int)x - cwidth,
-				(int)y - cheight,
+				(int)(x + xmap - cwidth / 2),
+				(int)(y + ymap - cheight / 2),
 				cwidth,
 				cheight
 		);
@@ -196,6 +196,8 @@ public abstract class MapObject {
 		else {
 			graphics.drawImage(animation.getImage(), (int)(x + xmap - width / 2 + width), (int)(y + ymap - height / 2), -width, height, null);
 		}
+		Rectangle r = getRectangle();
+		graphics.drawRect((int)r.getX(),(int)r.getY(),(int)r.getWidth(),(int)r.getHeight());
 
 	}
 
