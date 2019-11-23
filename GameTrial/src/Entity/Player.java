@@ -1,6 +1,7 @@
 package Entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -82,7 +83,7 @@ public class Player extends MapObject {
 		fireBalls = new ArrayList<FireBall>();
 
 		scratchDamage = 5;
-		scratchRange = 40;
+		scratchRange = 20;
 		deathPlayed = false;
 
 		try {
@@ -174,7 +175,7 @@ public class Player extends MapObject {
 
 		if(falling) {
 
-			if(dy > 0 && gliding) dy+= fallSpeed * 0.005;
+			if(dy > 0 && gliding) dy+= fallSpeed * 0.1;
 			else dy += fallSpeed;
 
 			if(dy > 0) jumping = false;
@@ -212,17 +213,25 @@ public class Player extends MapObject {
 
 	public void scratchHit(Enemy enemies) {
 		if(!scratching) return;
-		if(!((y + ymap + scratchRange/2) >= (enemies.gety() + ymap)
-				&& (y + ymap - scratchRange/2) <= (enemies.gety() + ymap))) return;
-		if(facingRight){
-			if((x + xmap + scratchRange) >= (enemies.getx() + xmap)
-					&& (enemies.getx() + xmap) >= (x + xmap))
-				enemies.hit(scratchDamage);
+		Rectangle r;
+		if(facingRight) {
+			r = new Rectangle(
+					(int)(x + xmap + cwidth/2),
+					(int)(y + ymap - scratchRange/2),
+					scratchRange,
+					scratchRange
+				);
 		}
-		else{
-			if((x + xmap - scratchRange) <= (enemies.getx() + xmap)
-					&& (enemies.getx() + xmap) <= (x + xmap))
-				enemies.hit(scratchDamage);
+		else {
+			r = new Rectangle(
+					(int)(x + xmap - cwidth/2 - scratchRange ),
+					(int)(y + ymap - scratchRange/2),
+					scratchRange,
+					scratchRange
+				);
+		}
+		if(r.intersects(enemies.getRectangle())) {
+			enemies.hit(scratchDamage);
 		}
 	}
 
@@ -342,7 +351,7 @@ public class Player extends MapObject {
 			if(right) facingRight = true;
 			if(left) facingRight = false;
 		}
-
+		
 	}
 
 	public void draw(Graphics2D graphics) {
@@ -366,9 +375,25 @@ public class Player extends MapObject {
 				return;
 			}
 		}
-
+		if(facingRight) {
+			Rectangle r = new Rectangle(
+					(int)(x + xmap + cwidth / 2),
+					(int)(y + ymap - scratchRange/2),
+					scratchRange,
+					scratchRange
+					);
+			graphics.drawRect((int)r.getX(),(int)r.getY(),(int)r.getWidth(),(int)r.getHeight());
+		}
+		else {
+			Rectangle r = new Rectangle(
+					(int)(x + xmap - cwidth/2 - scratchRange ),
+					(int)(y + ymap - scratchRange/2),
+					scratchRange,
+					scratchRange
+					);
+			graphics.drawRect((int)r.getX(),(int)r.getY(),(int)r.getWidth(),(int)r.getHeight());
+		}
 		super.draw(graphics);
-
 	}
 
 

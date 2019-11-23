@@ -1,5 +1,9 @@
 package Entity;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
 import TileMap.TileMap;
 
 public class Enemy extends MapObject{
@@ -33,5 +37,15 @@ public class Enemy extends MapObject{
 
 	public void update() {
 
+	}
+	public void draw(Graphics2D graphics) {
+		super.draw(graphics);
+		Rectangle r = getHealthBar();
+		int health = (int)(r.getWidth() * ((double)this.health / maxHealth));
+		System.out.println(health + "" +this.health);
+		graphics.setColor(Color.RED);
+		graphics.fillRect((int)r.getX(),(int)r.getY(),health,(int)r.getHeight());
+		graphics.setColor(Color.BLACK);
+		graphics.drawRect((int)r.getX(),(int)r.getY(),(int)r.getWidth(),(int)r.getHeight());
 	}
 }

@@ -151,7 +151,6 @@ public class Bird extends Enemy{
 
 	public void draw(Graphics2D graphics) {
 		setMapPosition();
-		System.out.println("Bird: x:" + (x+xmap) + " y:" + (y+ymap));
 		if(notOnScreen()) return;
 		if(flinching) {
 			long elapsed =(System.nanoTime() - flinchTimer) / 1000000;

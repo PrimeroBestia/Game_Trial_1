@@ -36,7 +36,7 @@ public class MenuState extends GameState{
 
 		try {
 
-			background = new Background("/Backgrounds/nurse.png",1);
+			background = new Background("/Backgrounds/grassbg1.gif",1);
 			background.setVector(0, 0);
 
 			titleColor = new Color(128,0,0);

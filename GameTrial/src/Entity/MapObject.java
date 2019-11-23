@@ -87,6 +87,15 @@ public abstract class MapObject {
 		);
 	}
 
+	public Rectangle getHealthBar() {
+		return new Rectangle(
+				(int)(x + xmap - cwidth / 2),
+				(int)(y + ymap - cheight),
+				cwidth,
+				cheight/4
+		);
+	}
+	
 	public void calculateCorners(double x, double y) {
 
 		int leftTile = (int)(x - cwidth / 2) / tileSize;
@@ -170,6 +179,8 @@ public abstract class MapObject {
 
 	public int getx() { return (int)x; }
 	public int gety() { return (int)y; }
+	public int getXmap() { return (int)xmap; }
+	public int getYmap() { return (int)ymap; }
 	public int getWidth() { return width; }
 	public int getHeight() { return height; }
 	public int getCWidth() { return cwidth; }

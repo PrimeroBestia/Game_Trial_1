@@ -3,6 +3,7 @@ package GameState;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -21,10 +22,12 @@ public class Level1State extends GameState{
 	private TileMap tileMap;
 	private Background background;
 	private long blinkTime;
+	private boolean bossStarted;
 
 	private Player player;
 
 	private ArrayList<Enemy> enemies;
+	private Enemy boss;
 	private ArrayList<Explosion> explosions;
 
 	private HUD hud;
@@ -35,7 +38,13 @@ public class Level1State extends GameState{
 
 	@Override
 	public void init() {
-
+		Point[] points = new Point[] {
+				new Point(860, 200),
+				new Point(1525, 200),
+				new Point(1680, 200),
+				new Point(1800, 200),
+				new Point(150, 200)
+		};
 		tileMap = new TileMap(30);
 		tileMap.loadTiles("/Tilesets/grasstileset.gif");
 		tileMap.loadMap("/Maps/level1-1.map");
@@ -47,14 +56,16 @@ public class Level1State extends GameState{
 		player.setDead(false);
 		enemies = new ArrayList<Enemy>();
 		explosions = new ArrayList<Explosion>();
-		Bird b = new Bird(tileMap);
-		b.setPosition(3100, 100);
-		enemies.add(b);
-		Slow s = new Slow(tileMap);
-		s.setPosition(150, 100);
-		enemies.add(s);
+		boss = new Bird(tileMap);
+		boss.setPosition(3100, 100);
+		for(Point p : points) {
+			Slow s = new Slow(tileMap);
+			s.setPosition(p.getX(), p.getY());
+			enemies.add(s);
+		}
 		hud = new HUD(player);
 		blinkTime = System.nanoTime();
+		bossStarted = false;
 
 	}
 
@@ -62,9 +73,25 @@ public class Level1State extends GameState{
 	public void update() {
 		try {
 			player.update();
-			tileMap.setPosition(GamePanel.WIDTH / 2  - player.getx(), GamePanel.HEIGHT / 2 - player.gety());
 			background.setPosition(tileMap.getx(), tileMap.gety());
-
+			
+			if(player.getx() > 2950 && !bossStarted && !boss.isDead()) {
+				bossStarted = true;
+				System.out.println("boss");
+				int tilex1 = (int)(2900) / 30;
+				int tilex2 = (int)(2930) / 30;
+				int tiley1 = (int)(170) / 30;
+				int tiley2 = (int)(200) / 30;
+				System.out.println(tilex1 + " " + tiley1);
+				tileMap.changeType(tiley1, tilex1, 22);
+				tileMap.changeType(tiley1, tilex2, 4);
+				tileMap.changeType(tiley2, tilex1, 22);
+				tileMap.changeType(tiley2, tilex2, 4);
+				tileMap.setPosition(GamePanel.WIDTH / 2  - 4000, GamePanel.HEIGHT / 2 - player.gety());
+			}
+			else if(!bossStarted)
+				tileMap.setPosition(GamePanel.WIDTH / 2  - player.getx(), GamePanel.HEIGHT / 2 - player.gety());
+			
 			for(int i = 0; i < enemies.size(); i++) {
 				Enemy e = enemies.get(i);
 				e.update();
@@ -79,6 +106,20 @@ public class Level1State extends GameState{
 					explosions.add(explode);
 					enemies.remove(i);
 					i--;
+				}
+			}
+			if(bossStarted) {
+				boss.update();
+				player.fireBallHit(boss);
+				player.scratchHit(boss);
+				if(player.intersects(boss)){
+					player.takeDamage(boss.getDamage());
+				}
+				if(boss.isDead()){
+					Explosion explode = new Explosion(tileMap,boss.getWidth(),boss.getHeight());
+					explode.setPosition(boss.getx(), boss.gety());
+					explosions.add(explode);
+					bossStarted = false;
 				}
 			}
 			for(int i = 0; i < explosions.size(); i++){
@@ -116,6 +157,9 @@ public class Level1State extends GameState{
 		//Draw Explosion
 		for(Explosion e: explosions) {
 			e.draw(graphics);
+		}
+		if(bossStarted && !boss.isDead()) {
+			boss.draw(graphics);
 		}
 		//DrawPlayer
 		if(player == null) return;

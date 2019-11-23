@@ -147,7 +147,6 @@ public class TileMap {
 
 		try {
 			for(int row = rowOffset; row < rowOffset + numRowsToDraw; row++) {
-
 				if(row >= numRows) break;
 
 				for(int col = colOffset; col < colOffset + numColsToDraw; col++) {
@@ -160,12 +159,15 @@ public class TileMap {
 					graphics.drawImage(tiles[rows][cols].getImage(), (int)x + (col * tileSize),
 							(int)y + (row * tileSize), null);
 				}
-
 			}
-		}catch(Exception e) {
-			e.printStackTrace();
+		}
+		catch(Exception e) {
+			
 		}
 
 	}
-
+	
+	public void changeType(int row, int col, int type) {
+		map[row][col] = type;
+	}
 }
